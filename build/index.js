@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var app = (0, express_1.default)();
-var address = "0.0.0.0:3000";
+var address = "localhost:3000";
 app.get('/', function (req, res) {
-    res.send('Hello World!');
+    res.send('Hello World!!');
 });
 app.listen(3000, function () {
     console.log("starting app on: ".concat(address));
