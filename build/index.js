@@ -4,11 +4,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var error_middleware_1 = __importDefault(require("./middlewares/error.middleware"));
+var config_1 = __importDefault(require("./config"));
+var database_1 = __importDefault(require("./database"));
 var app = (0, express_1.default)();
-var address = "localhost:3000";
+var port = config_1.default.port || 3000;
+//middleware to pares incoming requests
+app.use(express_1.default.json());
 app.get('/', function (req, res) {
-    res.send('Hello World!!');
+    database_1.default.connect().then(function (client) {
+        client.query('select now()').then(function (r) {
+            client.release();
+            res.send(r);
+        });
+    });
 });
-app.listen(3000, function () {
-    console.log("starting app on: ".concat(address));
+app.use(error_middleware_1.default);
+//Error handling for strange request from unkown endpoit
+app.use(function (_req, res) {
+    res.status(404).json({
+        message: 'Your are using wrong API. Please, read the API documentaion.',
+    });
 });
+app.listen(port, function () {
+    console.log("starting app on: localhost:".concat(port));
+});
+exports.default = app;
