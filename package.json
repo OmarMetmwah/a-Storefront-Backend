@@ -10,7 +10,8 @@
     "prettier": "prettier --config .prettierrc.yaml src/**/*.ts --write",
     "lint": "eslint . --ext .ts",
     "format": "npm run prettier && npm run lint",
-    "test": "npm run build && jasmine"
+    "test": "npm run build && jasmine",
+    "migrateup":"db-migrate up"
   },
   "author": "",
   "license": "ISC",
@@ -34,6 +35,8 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
+    "db-migrate": "^0.11.13",
+    "db-migrate-pg": "^1.2.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "pg": "^8.7.3"
