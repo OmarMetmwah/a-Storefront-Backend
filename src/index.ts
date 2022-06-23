@@ -1,25 +1,29 @@
 import express, { Request, Response, Application } from 'express';
+import routes from './routes';
 import errorMiddleware from './middlewares/error.middleware';
 import config from './config';
-import db from './database';
+
 
 const app: Application = express();
 const port = config.port || 3000;
 
+
 //middleware to pares incoming requests
 app.use(express.json());
 
-app.get('/', function (req: Request, res: Response) {
-	db.connect().then(client => {
-		client.query('select now()').then(r => {
-			client.release();
-			res.send(r.rows);
-		}).catch(err=>{
-			client.release();
-			console.log(err);
-		});
-	});
-});
+// app.get('/', function (req: Request, res: Response) {
+// 	db.connect().then(client => {
+// 		client.query('select now()').then(r => {
+// 			client.release();
+// 			res.send(r.rows);
+// 		}).catch(err=>{
+// 			client.release();
+// 			console.log(err);
+// 		});
+// 	});
+// });
+
+app.use("/api",routes);
 
 app.use(errorMiddleware);
 
