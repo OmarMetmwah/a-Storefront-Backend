@@ -3,10 +3,8 @@ import routes from './routes';
 import errorMiddleware from './middlewares/error.middleware';
 import config from './config';
 
-
 const app: Application = express();
 const port = config.port || 3000;
-
 
 //middleware to pares incoming requests
 app.use(express.json());
@@ -23,7 +21,7 @@ app.use(express.json());
 // 	});
 // });
 
-app.use("/api",routes);
+app.use('/api', routes);
 
 app.use(errorMiddleware);
 
