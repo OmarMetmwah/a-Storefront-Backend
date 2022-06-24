@@ -61,7 +61,7 @@ class OrderModel {
 	}
 
 	//get specific
-	async getOrder(id: number): Promise<Order> {
+	async getOrder(id: string): Promise<Order> {
 		try {
 			//open connection
 			const connection = await db.connect();
@@ -85,7 +85,7 @@ class OrderModel {
 	}
 
 	//update
-	async updateOrder(id: number, order: Order): Promise<Order> {
+	async updateOrder(order: Order): Promise<Order> {
 		try {
 			//open connection
 			const connection = await db.connect();
@@ -115,7 +115,7 @@ class OrderModel {
 	}
 
 	//delete
-	async deleteOrder(id: number): Promise<Order> {
+	async deleteOrder(id: string): Promise<Order> {
 		try {
 			const connection = await db.connect();
 			const orderProductsSql = 'DELETE FROM order_products WHERE order_id=($1)';

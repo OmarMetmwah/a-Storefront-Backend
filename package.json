@@ -11,7 +11,8 @@
     "lint": "eslint . --ext .ts",
     "format": "npm run prettier && npm run lint",
     "test": "npm run build && jasmine",
-    "migrateup":"db-migrate up"
+    "migu":"db-migrate up",
+    "migr":"db-migrate reset"
   },
   "author": "",
   "license": "ISC",

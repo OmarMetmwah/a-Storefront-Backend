@@ -22,7 +22,7 @@ app.use(express_1.default.json());
 // 		});
 // 	});
 // });
-app.use("/api", routes_1.default);
+app.use('/api', routes_1.default);
 app.use(error_middleware_1.default);
 //Error handling for strange request from unkown endpoit
 app.use(function (_req, res) {

@@ -39,19 +39,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.getUser = exports.list = exports.create = void 0;
-var user_model_1 = __importDefault(require("../models/user.model"));
-var userModel = new user_model_1.default();
+exports.deleteProduct = exports.updateProduct = exports.getProduct = exports.list = exports.create = void 0;
+var product_model_1 = __importDefault(require("../models/product.model"));
+var productModel = new product_model_1.default();
 var create = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_1;
+    var product, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.create(req.body)];
+                return [4 /*yield*/, productModel.create(req.body)];
             case 1:
-                user = _a.sent();
-                res.json({ status: 'success', data: user });
+                product = _a.sent();
+                res.json({ status: 'success', data: product });
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
@@ -63,15 +63,15 @@ var create = function (req, res, next) { return __awaiter(void 0, void 0, void 0
 }); };
 exports.create = create;
 var list = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var users, err_2;
+    var products, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.list()];
+                return [4 /*yield*/, productModel.list()];
             case 1:
-                users = _a.sent();
-                res.json({ status: 'success', data: users });
+                products = _a.sent();
+                res.json({ status: 'success', data: products });
                 return [3 /*break*/, 3];
             case 2:
                 err_2 = _a.sent();
@@ -82,16 +82,16 @@ var list = function (req, res, next) { return __awaiter(void 0, void 0, void 0, 
     });
 }); };
 exports.list = list;
-var getUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_3;
+var getProduct = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var product, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.getUser(req.params.id)];
+                return [4 /*yield*/, productModel.getProduct(req.params.id)];
             case 1:
-                user = _a.sent();
-                res.json({ status: 'success', data: user });
+                product = _a.sent();
+                res.json({ status: 'success', data: product });
                 return [3 /*break*/, 3];
             case 2:
                 err_3 = _a.sent();
@@ -101,17 +101,17 @@ var getUser = function (req, res, next) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-exports.getUser = getUser;
-var updateUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_4;
+exports.getProduct = getProduct;
+var updateProduct = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var product, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.updateUser(req.body)];
+                return [4 /*yield*/, productModel.updateProduct(req.body)];
             case 1:
-                user = _a.sent();
-                res.json({ status: 'success', data: user });
+                product = _a.sent();
+                res.json({ status: 'success', data: product });
                 return [3 /*break*/, 3];
             case 2:
                 err_4 = _a.sent();
@@ -121,17 +121,17 @@ var updateUser = function (req, res, next) { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
-exports.updateUser = updateUser;
-var deleteUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_5;
+exports.updateProduct = updateProduct;
+var deleteProduct = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var product, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.deleteUser(req.params.id)];
+                return [4 /*yield*/, productModel.deleteProduct(req.params.id)];
             case 1:
-                user = _a.sent();
-                res.json({ status: 'success', data: user });
+                product = _a.sent();
+                res.json({ status: 'success', data: product });
                 return [3 /*break*/, 3];
             case 2:
                 err_5 = _a.sent();
@@ -141,4 +141,4 @@ var deleteUser = function (req, res, next) { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
-exports.deleteUser = deleteUser;
+exports.deleteProduct = deleteProduct;
