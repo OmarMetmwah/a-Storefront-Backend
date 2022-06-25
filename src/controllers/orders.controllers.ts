@@ -32,7 +32,7 @@ export const getOrder = async (req: Request, res: Response, next: NextFunction) 
 
 export const updateOrder = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const order = await orderModel.updateOrder(req.body);
+		const order = await orderModel.updateOrder(req.params.id, req.body);
 		res.json({ status: 'success', data: order });
 	} catch (err) {
 		next(err);
@@ -41,7 +41,7 @@ export const updateOrder = async (req: Request, res: Response, next: NextFunctio
 
 export const deleteorder = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const order = await orderModel.deleteOrder(req.params.id);
+		const order = (await orderModel.deleteOrder(req.params.id)) || `There is no order with id: ${req.params.id}`;
 		res.json({ status: 'success', data: order });
 	} catch (err) {
 		next(err);

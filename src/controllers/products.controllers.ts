@@ -23,7 +23,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
 
 export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const product = await productModel.getProduct(req.params.id);
+		const product = (await productModel.getProduct(req.params.id)) || `There is no product with id: ${req.params.id}`;
 		res.json({ status: 'success', data: product });
 	} catch (err) {
 		next(err);
@@ -32,7 +32,7 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
 
 export const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const product = await productModel.updateProduct(req.body);
+		const product = (await productModel.updateProduct(req.params.id, req.body)) || `There is no product with id: ${req.params.id}`;
 		res.json({ status: 'success', data: product });
 	} catch (err) {
 		next(err);
@@ -41,7 +41,7 @@ export const updateProduct = async (req: Request, res: Response, next: NextFunct
 
 export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const product = await productModel.deleteProduct(req.params.id);
+		const product = (await productModel.deleteProduct(req.params.id)) || `There is no product with id: ${req.params.id}`;
 		res.json({ status: 'success', data: product });
 	} catch (err) {
 		next(err);

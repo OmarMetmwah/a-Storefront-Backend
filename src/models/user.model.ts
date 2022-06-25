@@ -1,5 +1,14 @@
 import User from '../types/user.types';
 import db from '../database';
+import config from '../config';
+import bcrypt from 'bcrypt';
+
+const hashPassword = (password:string)=>{
+	const salt = parseInt(config.salt as string);
+	const pepper = config.pepper;
+	return bcrypt.hashSync(password+pepper,salt);
+
+}
 class UserModel {
 	//create
 	async create(user: User): Promise<User> {
@@ -9,7 +18,7 @@ class UserModel {
 			const query = `INSERT INTO users(email, username, firstname, lastname, password)
             VALUES($1,$2,$3,$4,$5) RETURNING id, email, username, firstname, lastname`;
 			//run query
-			const result = await conncection.query(query, [user.email, user.username, user.firstname, user.lastname, user.password]);
+			const result = await conncection.query(query, [user.email, user.username, user.firstname, user.lastname, hashPassword(user.password)]);
 			//release conncetion
 			conncection.release();
 			//return user
@@ -51,20 +60,20 @@ class UserModel {
 		}
 	}
 	//update user
-	async updateUser(user: User): Promise<User> {
+	async updateUser(id: string, user: User): Promise<User> {
 		try {
 			//open conncection
 			const conncection = await db.connect();
 			const query = `UPDATE users SET email=$1, username=$2, firstname=$3, lastname=$4, password=$5 WHERE id=$6
             RETURNING id, email, username, firstname, lastname`;
 			//run query
-			const result = await conncection.query(query, [user.email, user.username, user.firstname, user.lastname, user.password, user.id]);
+			const result = await conncection.query(query, [user.email, user.username, user.firstname, user.lastname, hashPassword(user.password), id]);
 			//release conncetion
 			conncection.release();
 			//return user
 			return result.rows[0];
 		} catch (err) {
-			throw new Error(`Cannot Update User ${user.id} because ${(err as Error).message}`);
+			throw new Error(`Cannot Update User ${id} because ${(err as Error).message}`);
 		}
 	}
 	//delete user

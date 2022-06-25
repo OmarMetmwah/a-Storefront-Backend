@@ -85,13 +85,13 @@ class OrderModel {
 	}
 
 	//update
-	async updateOrder(order: Order): Promise<Order> {
+	async updateOrder(id: string, order: Order): Promise<Order> {
 		try {
 			//open connection
 			const connection = await db.connect();
 			const sql = 'UPDATE orders SET status = $1 WHERE id = $2 RETURNING *';
 
-			const result = await connection.query(sql, [order.status, order.id]);
+			const result = await connection.query(sql, [order.status, id]);
 
 			const orderProductsSql = 'UPDATE order_products SET product_id = $1, quantity = $2 WHERE order_id = $3 RETURNING product_id, quantity';
 			const orderProducts: OrderProduct[] = [];

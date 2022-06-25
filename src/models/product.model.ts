@@ -52,20 +52,20 @@ class ProductModel {
 		}
 	}
 	//update
-	async updateProduct(product: Product): Promise<Product> {
+	async updateProduct(id: string, product: Product): Promise<Product> {
 		try {
 			//open conncection
 			const conncection = await db.connect();
 			const query = `UPDATE products SET name=$1, price=$2 WHERE id=$3
             RETURNING id, name, price`;
 			//run query
-			const result = await conncection.query(query, [product.name, product.price, product.id]);
+			const result = await conncection.query(query, [product.name, product.price, id]);
 			//release conncetion
 			conncection.release();
 			//return
 			return result.rows[0];
 		} catch (err) {
-			throw new Error(`Cannot Update Product ${product.id} because ${(err as Error).message}`);
+			throw new Error(`Cannot Update Product ${id} because ${(err as Error).message}`);
 		}
 	}
 	//delete

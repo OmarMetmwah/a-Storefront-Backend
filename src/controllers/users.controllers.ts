@@ -23,7 +23,7 @@ export const list = async (req: Request, res: Response, next: NextFunction) => {
 
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const user = await userModel.getUser(req.params.id);
+		const user = (await userModel.getUser(req.params.id)) || `There is no user with id: ${req.params.id}`;
 		res.json({ status: 'success', data: user });
 	} catch (err) {
 		next(err);
@@ -32,7 +32,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const user = await userModel.updateUser(req.body);
+		const user = (await userModel.updateUser(req.params.id, req.body)) || `There is no user with id: ${req.params.id}`;
 		res.json({ status: 'success', data: user });
 	} catch (err) {
 		next(err);
@@ -41,7 +41,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const user = await userModel.deleteUser(req.params.id);
+		const user = (await userModel.deleteUser(req.params.id)) || `There is no user with id: ${req.params.id}`;
 		res.json({ status: 'success', data: user });
 	} catch (err) {
 		next(err);
