@@ -52,15 +52,15 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const user = (await userModel.authenticate(req.body.username,req.body.password));
-		const token = jwt.sign({user},config.tokenSecret as string);
-		if(!user){
+		const user = await userModel.authenticate(req.body.username, req.body.password);
+		const token = jwt.sign({ user }, config.tokenSecret as string);
+		if (!user) {
 			return res.status(401).json({
-				"status":"error",
-				"message":"the username and password don not match"
-			})
+				status: 'error',
+				message: 'the username and password don not match',
+			});
 		}
-		res.json({ status: 'success', data: {...user, token} });
+		res.json({ status: 'success', data: { ...user, token } });
 	} catch (err) {
 		next(err);
 	}
