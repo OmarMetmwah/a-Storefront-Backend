@@ -10,7 +10,8 @@
     "prettier": "prettier --config .prettierrc.yaml src/**/*.ts --write",
     "lint": "eslint . --ext .ts",
     "format": "npm run prettier && npm run lint",
-    "test": "npm run build && jasmine",
+    "test": "export ENV=test && tsc && db-migrate --env test up && tsc && jasmine && db-migrate --env test reset",
+    "test:windows": "set ENV=test && tsc && db-migrate --env test  up && tsc && jasmine || db-migrate --env test reset",
     "migu": "db-migrate up",
     "migr": "db-migrate reset"
   },

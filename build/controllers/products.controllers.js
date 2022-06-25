@@ -90,7 +90,7 @@ var getProduct = function (req, res, next) { return __awaiter(void 0, void 0, vo
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, productModel.getProduct(req.params.id)];
             case 1:
-                product = _a.sent();
+                product = (_a.sent()) || "There is no product with id: ".concat(req.params.id);
                 res.json({ status: 'success', data: product });
                 return [3 /*break*/, 3];
             case 2:
@@ -108,9 +108,9 @@ var updateProduct = function (req, res, next) { return __awaiter(void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, productModel.updateProduct(req.body)];
+                return [4 /*yield*/, productModel.updateProduct(req.params.id, req.body)];
             case 1:
-                product = _a.sent();
+                product = (_a.sent()) || "There is no product with id: ".concat(req.params.id);
                 res.json({ status: 'success', data: product });
                 return [3 /*break*/, 3];
             case 2:
@@ -130,7 +130,7 @@ var deleteProduct = function (req, res, next) { return __awaiter(void 0, void 0,
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, productModel.deleteProduct(req.params.id)];
             case 1:
-                product = _a.sent();
+                product = (_a.sent()) || "There is no product with id: ".concat(req.params.id);
                 res.json({ status: 'success', data: product });
                 return [3 /*break*/, 3];
             case 2:

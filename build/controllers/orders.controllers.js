@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -50,21 +39,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authenticate = exports.deleteUser = exports.updateUser = exports.getUser = exports.list = exports.create = void 0;
-var user_model_1 = __importDefault(require("../models/user.model"));
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var config_1 = __importDefault(require("../config"));
-var userModel = new user_model_1.default();
+exports.deleteorder = exports.updateOrder = exports.getOrder = exports.list = exports.create = void 0;
+var order_model_1 = __importDefault(require("../models/order.model"));
+var orderModel = new order_model_1.default();
 var create = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_1;
+    var order, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.create(req.body)];
+                return [4 /*yield*/, orderModel.create(req.body)];
             case 1:
-                user = _a.sent();
-                res.json({ status: 'success', data: user });
+                order = _a.sent();
+                res.json({ status: 'success', data: order });
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
@@ -76,15 +63,15 @@ var create = function (req, res, next) { return __awaiter(void 0, void 0, void 0
 }); };
 exports.create = create;
 var list = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var users, err_2;
+    var orders, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.list()];
+                return [4 /*yield*/, orderModel.list()];
             case 1:
-                users = _a.sent();
-                res.json({ status: 'success', data: users });
+                orders = _a.sent();
+                res.json({ status: 'success', data: orders });
                 return [3 /*break*/, 3];
             case 2:
                 err_2 = _a.sent();
@@ -95,16 +82,16 @@ var list = function (req, res, next) { return __awaiter(void 0, void 0, void 0, 
     });
 }); };
 exports.list = list;
-var getUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_3;
+var getOrder = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var order, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.getUser(req.params.id)];
+                return [4 /*yield*/, orderModel.getOrder(req.params.id)];
             case 1:
-                user = (_a.sent()) || "There is no user with id: ".concat(req.params.id);
-                res.json({ status: 'success', data: user });
+                order = _a.sent();
+                res.json({ status: 'success', data: order });
                 return [3 /*break*/, 3];
             case 2:
                 err_3 = _a.sent();
@@ -114,17 +101,17 @@ var getUser = function (req, res, next) { return __awaiter(void 0, void 0, void 
         }
     });
 }); };
-exports.getUser = getUser;
-var updateUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_4;
+exports.getOrder = getOrder;
+var updateOrder = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var order, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.updateUser(req.params.id, req.body)];
+                return [4 /*yield*/, orderModel.updateOrder(req.params.id, req.body)];
             case 1:
-                user = (_a.sent()) || "There is no user with id: ".concat(req.params.id);
-                res.json({ status: 'success', data: user });
+                order = _a.sent();
+                res.json({ status: 'success', data: order });
                 return [3 /*break*/, 3];
             case 2:
                 err_4 = _a.sent();
@@ -134,17 +121,17 @@ var updateUser = function (req, res, next) { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
-exports.updateUser = updateUser;
-var deleteUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err_5;
+exports.updateOrder = updateOrder;
+var deleteorder = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var order, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.deleteUser(req.params.id)];
+                return [4 /*yield*/, orderModel.deleteOrder(req.params.id)];
             case 1:
-                user = (_a.sent()) || "There is no user with id: ".concat(req.params.id);
-                res.json({ status: 'success', data: user });
+                order = (_a.sent()) || "There is no order with id: ".concat(req.params.id);
+                res.json({ status: 'success', data: order });
                 return [3 /*break*/, 3];
             case 2:
                 err_5 = _a.sent();
@@ -154,31 +141,4 @@ var deleteUser = function (req, res, next) { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
-exports.deleteUser = deleteUser;
-var authenticate = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, token, err_6;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel.authenticate(req.body.username, req.body.password)];
-            case 1:
-                user = _a.sent();
-                token = jsonwebtoken_1.default.sign({ user: user }, config_1.default.tokenSecret);
-                if (!user) {
-                    return [2 /*return*/, res.status(401).json({
-                            status: 'error',
-                            message: 'the username and password don not match',
-                        })];
-                }
-                res.json({ status: 'success', data: __assign(__assign({}, user), { token: token }) });
-                return [3 /*break*/, 3];
-            case 2:
-                err_6 = _a.sent();
-                next(err_6);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.authenticate = authenticate;
+exports.deleteorder = deleteorder;

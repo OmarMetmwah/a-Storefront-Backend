@@ -40,6 +40,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var database_1 = __importDefault(require("../database"));
+var config_1 = __importDefault(require("../config"));
+var bcrypt_1 = __importDefault(require("bcrypt"));
+var hashPassword = function (password) {
+    var salt = parseInt(config_1.default.salt);
+    var pepper = config_1.default.pepper;
+    return bcrypt_1.default.hashSync(password + pepper, salt);
+};
 var UserModel = /** @class */ (function () {
     function UserModel() {
     }
@@ -55,7 +62,7 @@ var UserModel = /** @class */ (function () {
                     case 1:
                         conncection = _a.sent();
                         query = "INSERT INTO users(email, username, firstname, lastname, password)\n            VALUES($1,$2,$3,$4,$5) RETURNING id, email, username, firstname, lastname";
-                        return [4 /*yield*/, conncection.query(query, [user.email, user.username, user.firstname, user.lastname, user.password])];
+                        return [4 /*yield*/, conncection.query(query, [user.email, user.username, user.firstname, user.lastname, hashPassword(user.password)])];
                     case 2:
                         result = _a.sent();
                         //release conncetion
@@ -81,7 +88,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = "SELECT id, email, username, firstname, lastname FROM users";
+                        query = 'SELECT id, email, username, firstname, lastname FROM users';
                         return [4 /*yield*/, conncection.query(query)];
                     case 2:
                         result = _a.sent();
@@ -108,7 +115,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = "SELECT id, email, username, firstname, lastname FROM users WHERE id=($1)";
+                        query = 'SELECT id, email, username, firstname, lastname FROM users WHERE id=($1)';
                         return [4 /*yield*/, conncection.query(query, [id])];
                     case 2:
                         result = _a.sent();
@@ -125,7 +132,7 @@ var UserModel = /** @class */ (function () {
         });
     };
     //update user
-    UserModel.prototype.updateUser = function (user) {
+    UserModel.prototype.updateUser = function (id, user) {
         return __awaiter(this, void 0, void 0, function () {
             var conncection, query, result, err_4;
             return __generator(this, function (_a) {
@@ -136,7 +143,7 @@ var UserModel = /** @class */ (function () {
                     case 1:
                         conncection = _a.sent();
                         query = "UPDATE users SET email=$1, username=$2, firstname=$3, lastname=$4, password=$5 WHERE id=$6\n            RETURNING id, email, username, firstname, lastname";
-                        return [4 /*yield*/, conncection.query(query, [user.email, user.username, user.firstname, user.lastname, user.password, user.id])];
+                        return [4 /*yield*/, conncection.query(query, [user.email, user.username, user.firstname, user.lastname, hashPassword(user.password), id])];
                     case 2:
                         result = _a.sent();
                         //release conncetion
@@ -145,7 +152,7 @@ var UserModel = /** @class */ (function () {
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_4 = _a.sent();
-                        throw new Error("Cannot Update User ".concat(user.id, " because ").concat(err_4.message));
+                        throw new Error("Cannot Update User ".concat(id, " because ").concat(err_4.message));
                     case 4: return [2 /*return*/];
                 }
             });
@@ -162,7 +169,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = "DELETE FROM users WHERE id=($1) RETURNING id, email, username, firstname, lastname";
+                        query = 'DELETE FROM users WHERE id=($1) RETURNING id, email, username, firstname, lastname';
                         return [4 /*yield*/, conncection.query(query, [id])];
                     case 2:
                         result = _a.sent();
@@ -174,6 +181,41 @@ var UserModel = /** @class */ (function () {
                         err_5 = _a.sent();
                         throw new Error("Cannot Delete User ".concat(id, " because ").concat(err_5.message));
                     case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    //authenticate
+    UserModel.prototype.authenticate = function (username, password) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conncection, query, result, hashPassword_1, valid, info, err_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 5, , 6]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conncection = _a.sent();
+                        query = 'SELECT password FROM users WHERE username=($1)';
+                        return [4 /*yield*/, conncection.query(query, [username])];
+                    case 2:
+                        result = _a.sent();
+                        if (!result.rows.length) return [3 /*break*/, 4];
+                        hashPassword_1 = result.rows[0].password;
+                        valid = bcrypt_1.default.compareSync(password + config_1.default.pepper, hashPassword_1);
+                        if (!valid) return [3 /*break*/, 4];
+                        return [4 /*yield*/, conncection.query('SELECT id, email, username, firstname, lastname FROM users WHERE username=($1)', [username])];
+                    case 3:
+                        info = _a.sent();
+                        return [2 /*return*/, info.rows[0]];
+                    case 4:
+                        //release conncetion
+                        conncection.release();
+                        return [2 /*return*/, null];
+                    case 5:
+                        err_6 = _a.sent();
+                        throw new Error("Cannot Login because ".concat(err_6.message));
+                    case 6: return [2 /*return*/];
                 }
             });
         });

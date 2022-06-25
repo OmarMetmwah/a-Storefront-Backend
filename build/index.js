@@ -11,17 +11,6 @@ var app = (0, express_1.default)();
 var port = config_1.default.port || 3000;
 //middleware to pares incoming requests
 app.use(express_1.default.json());
-// app.get('/', function (req: Request, res: Response) {
-// 	db.connect().then(client => {
-// 		client.query('select now()').then(r => {
-// 			client.release();
-// 			res.send(r.rows);
-// 		}).catch(err=>{
-// 			client.release();
-// 			console.log(err);
-// 		});
-// 	});
-// });
 app.use('/api', routes_1.default);
 app.use(error_middleware_1.default);
 //Error handling for strange request from unkown endpoit

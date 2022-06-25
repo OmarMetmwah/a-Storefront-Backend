@@ -180,7 +180,7 @@ var OrderModel = /** @class */ (function () {
                     case 1:
                         connection = _b.sent();
                         sql = 'UPDATE orders SET status = $1 WHERE id = $2 RETURNING *';
-                        return [4 /*yield*/, connection.query(sql, [order.status, order.id])];
+                        return [4 /*yield*/, connection.query(sql, [order.status, id])];
                     case 2:
                         result = _b.sent();
                         orderProductsSql = 'UPDATE order_products SET product_id = $1, quantity = $2 WHERE order_id = $3 RETURNING product_id, quantity';

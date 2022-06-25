@@ -81,7 +81,7 @@ var ProductModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = "SELECT id, name, price FROM products";
+                        query = 'SELECT id, name, price FROM products';
                         return [4 /*yield*/, conncection.query(query)];
                     case 2:
                         result = _a.sent();
@@ -108,7 +108,7 @@ var ProductModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = "SELECT id, name, price FROM products WHERE id=($1)";
+                        query = 'SELECT id, name, price FROM products WHERE id=($1)';
                         return [4 /*yield*/, conncection.query(query, [id])];
                     case 2:
                         result = _a.sent();
@@ -125,7 +125,7 @@ var ProductModel = /** @class */ (function () {
         });
     };
     //update
-    ProductModel.prototype.updateProduct = function (product) {
+    ProductModel.prototype.updateProduct = function (id, product) {
         return __awaiter(this, void 0, void 0, function () {
             var conncection, query, result, err_4;
             return __generator(this, function (_a) {
@@ -136,7 +136,7 @@ var ProductModel = /** @class */ (function () {
                     case 1:
                         conncection = _a.sent();
                         query = "UPDATE products SET name=$1, price=$2 WHERE id=$3\n            RETURNING id, name, price";
-                        return [4 /*yield*/, conncection.query(query, [product.name, product.price, product.id])];
+                        return [4 /*yield*/, conncection.query(query, [product.name, product.price, id])];
                     case 2:
                         result = _a.sent();
                         //release conncetion
@@ -145,7 +145,7 @@ var ProductModel = /** @class */ (function () {
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         err_4 = _a.sent();
-                        throw new Error("Cannot Update Product ".concat(product.id, " because ").concat(err_4.message));
+                        throw new Error("Cannot Update Product ".concat(id, " because ").concat(err_4.message));
                     case 4: return [2 /*return*/];
                 }
             });
@@ -162,7 +162,7 @@ var ProductModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = "DELETE FROM products WHERE id=($1) RETURNING id, name, price";
+                        query = 'DELETE FROM products WHERE id=($1) RETURNING id, name, price';
                         return [4 /*yield*/, conncection.query(query, [id])];
                     case 2:
                         result = _a.sent();

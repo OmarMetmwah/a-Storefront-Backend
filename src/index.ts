@@ -9,18 +9,6 @@ const port = config.port || 3000;
 //middleware to pares incoming requests
 app.use(express.json());
 
-// app.get('/', function (req: Request, res: Response) {
-// 	db.connect().then(client => {
-// 		client.query('select now()').then(r => {
-// 			client.release();
-// 			res.send(r.rows);
-// 		}).catch(err=>{
-// 			client.release();
-// 			console.log(err);
-// 		});
-// 	});
-// });
-
 app.use('/api', routes);
 
 app.use(errorMiddleware);
