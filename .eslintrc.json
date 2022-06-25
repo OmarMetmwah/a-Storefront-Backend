@@ -23,6 +23,7 @@
             "error",
             "tab"
         ],
+        "quotes":[1,"single"],
         "semi": [
             "error",
             "always"

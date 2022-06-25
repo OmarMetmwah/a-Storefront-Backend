@@ -1,7 +1,7 @@
 -- CREATE TABLE USERS
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
-    email VARCHAR(50),
+    email VARCHAR(50) UNIQUE,
     username VARCHAR(50) NOT NULL UNIQUE,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,

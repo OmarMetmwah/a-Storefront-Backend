@@ -10,5 +10,6 @@ export default {
 	user: process.env.PG_USER,
 	password: process.env.PG_PASSWORD,
 	pepper: process.env.BCRYPT,
-	salt: process.env.SALT_ROUNDS
+	salt: process.env.SALT_ROUNDS,
+	tokenSecret: process.env.TOKEN_SECRET,
 };
