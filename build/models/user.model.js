@@ -169,7 +169,7 @@ var UserModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = 'DELETE FROM users WHERE id=($1) RETURNING id, email, username, firstname, lastname';
+                        query = 'DELETE FROM users WHERE id=($1) RETURNING id, email, username, firstname, lastname;';
                         return [4 /*yield*/, conncection.query(query, [id])];
                     case 2:
                         result = _a.sent();

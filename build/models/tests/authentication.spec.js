@@ -72,9 +72,7 @@ describe('Authentication Module', function () {
             var connection, sql;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, database_1.default.connect()
-                        // if you are not using uuid u need to add `\nALTER SEQUENCE users_id_seq RESTART WITH 1;`
-                    ];
+                    case 0: return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         connection = _a.sent();
                         sql = 'DELETE FROM users;';

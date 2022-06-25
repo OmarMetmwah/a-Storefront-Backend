@@ -25,6 +25,7 @@ class OrderModel {
 			return {
 				...order,
 				products: orderProducts,
+				id: result.rows[0].id,
 			};
 		} catch (err) {
 			throw new Error(`Cannot add new order for user ${order.user_id} because ${(err as Error).message}`);

@@ -162,7 +162,7 @@ var ProductModel = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conncection = _a.sent();
-                        query = 'DELETE FROM products WHERE id=($1) RETURNING id, name, price';
+                        query = 'DELETE FROM products WHERE id=($1) RETURNING id, name, price;';
                         return [4 /*yield*/, conncection.query(query, [id])];
                     case 2:
                         result = _a.sent();

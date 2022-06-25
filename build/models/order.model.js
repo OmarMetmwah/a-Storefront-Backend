@@ -87,7 +87,7 @@ var OrderModel = /** @class */ (function () {
                     case 6:
                         //release conncetion
                         connection.release();
-                        return [2 /*return*/, __assign(__assign({}, order), { products: orderProducts })];
+                        return [2 /*return*/, __assign(__assign({}, order), { products: orderProducts, id: result.rows[0].id })];
                     case 7:
                         err_1 = _b.sent();
                         throw new Error("Cannot add new order for user ".concat(order.user_id, " because ").concat(err_1.message));

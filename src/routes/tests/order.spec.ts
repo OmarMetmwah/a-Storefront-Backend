@@ -1,112 +1,105 @@
-// import supertest from "supertest"
-// import jwt, {Secret} from "jsonwebtoken"
+import supertest from 'supertest';
+import app from '../../index';
+import { Order } from '../../types/order.type';
+import User from '../../types/user.types';
+import UserModel from '../../models/user.model';
+import Product from '../../types/product.type';
+import ProductModel from '../../models/product.model';
+import db from '../../database';
 
-// import app from "../../server"
-// import {BaseOrder} from "../../models/order"
-// import {BaseAuthUser} from "../../models/user"
-// import {BaseProduct} from "../../models/product"
+const request = supertest(app);
+const userModel = new UserModel();
+const productModel = new ProductModel();
 
-// const request = supertest(app)
-// const SECRET = process.env.TOKEN_SECRET as Secret
+describe('Order Handler', () => {
+	let token: string, order: Order, user_id: number, product_id: number, order_id: number;
 
-// describe("Order Handler", () => {
-//   let token: string, order: BaseOrder, user_id: number, product_id: number, order_id: number
+	beforeAll(async () => {
+		const user: User = {
+			username: 'omar_metmwah',
+			firstname: 'Omar',
+			lastname: 'Metmwah',
+			password: 'password123',
+			email: 'omar@gmail.com',
+		};
+		const product: Product = {
+			name: 'Oreo',
+			price: 5,
+		};
 
-//   beforeAll(async () => {
-//     const userData: BaseAuthUser = {
-//       username: "ordertester",
-//       firstname: "Order",
-//       lastname: "Tester",
-//       password: "password123"
-//     }
-//     const productData: BaseProduct = {
-//       name: "CodeMaster 199",
-//       price: 199
-//     }
+		const createdUser = await userModel.create(user);
+        user_id = createdUser.id as number;
 
-//     const {body: userBody} = await request.post("/users/create").send(userData)
+		const createdProduct = await productModel.create(product);
+		product_id = createdProduct.id as number;
 
-//     token = userBody
+		order = {
+			products: [
+				{
+					product_id,
+					quantity: 5,
+				},
+			],
+			user_id,
+			status: true,
+		};
+	});
 
-//     // @ts-ignore
-//     const {user} = jwt.verify(token, SECRET)
-//     user_id = user.id
+	afterAll(async () => {
+		const connection = await db.connect();
+		const sql = 'DELETE FROM order_products; DELETE FROM products; DELETE FROM orders; DELETE FROM users;';
+		await connection.query(sql);
+		connection.release();
+	});
 
-//     const {body: productBody} = await request.post("/products/create").set("Authorization", "bearer " + token).send(productData)
-//     product_id = productBody.id
+	it('gets the create endpoint', done => {
+		request
+			.post('/api/orders')
+			.send(order)
+			.then(res => {
+				const { body, status } = res;
 
-//     order = {
-//       products: [{
-//         product_id,
-//         quantity: 5
-//       }],
-//       user_id,
-//       status: true
-//     }
-//   })
+				expect(status).toBe(200);
 
-//   afterAll(async () => {
-//     await request.delete(`/users/${user_id}`).set("Authorization", "bearer " + token)
-//     await request.delete(`/products/${product_id}`).set("Authorization", "bearer " + token)
-//   })
+				order_id = body.data.id;
 
-//   it("gets the create endpoint", (done) => {
-//     request
-//     .post("/orders/create")
-//     .send(order)
-//     .set("Authorization", "bearer " + token)
-//     .then((res) => {
-//       const {body, status} = res
+				done();
+			});
+	});
 
-//       expect(status).toBe(200)
+	it('gets the index endpoint', done => {
+		request.get('/api/orders').then(res => {
+			expect(res.status).toBe(200);
+			done();
+		});
+	});
 
-//       order_id = body.id
+	it('gets the read endpoint', done => {
+		request.get(`/api/orders/${order_id}`).then(res => {
+			expect(res.status).toBe(200);
+			done();
+		});
+	});
 
-//       done()
-//     })
-//   })
+	it('gets the update endpoint', done => {
+		const newOrder: Order = {
+			...order,
+			status: false,
+		};
 
-//   it("gets the index endpoint", (done) => {
-//     request
-//     .get("/orders")
-//     .set("Authorization", "bearer " + token)
-//     .then((res) => {
-//       expect(res.status).toBe(200)
-//       done()
-//     })
-//   })
+		request
+			.patch(`/api/orders/${order_id}`)
+			.send(newOrder)
+			.then(res => {
+				expect(res.status).toBe(200);
+				done();
+			});
+	});
 
-//   it("gets the read endpoint", (done) => {
-//     request
-//     .get(`/orders/${order_id}`)
-//     .set("Authorization", "bearer " + token)
-//     .then((res) => {
-//       expect(res.status).toBe(200)
-//       done()
-//     })
-//   })
-
-//   it("gets the update endpoint", (done) => {
-//     const newOrder: BaseOrder = {
-//       ...order,
-//       status: false
-//     }
-
-//     request
-//     .put(`/orders/${order_id}`)
-//     .send(newOrder)
-//     .set("Authorization", "bearer " + token)
-//     .then((res) => {
-//       expect(res.status).toBe(200)
-//       done()
-//     })
-//   })
-
-//   it("gets the delete endpoint", (done) => {
-//     request.delete(`/orders/${order_id}`).set("Authorization", "bearer " + token)
-//     .then((res) => {
-//       expect(res.status).toBe(200)
-//       done()
-//     })
-//   })
-// })
+	it('gets the delete endpoint', done => {
+		request.delete(`/api/orders/${order_id}`).then(res => {
+			expect(res.status).toBe(200);
+			done();
+		});
+	});
+});

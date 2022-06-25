@@ -88,8 +88,8 @@ describe('User Model', () => {
 				username: 'maro_meto',
 				firstname: 'Maro',
 				lastname: 'Meto',
-                password: 'password456',
-                email: 'omar@gmail.com',
+				password: 'password456',
+				email: 'omar@gmail.com',
 			});
 			expect(updatedUser.id).toBe(user.id);
 			expect(updatedUser.email).toBe(user.email);

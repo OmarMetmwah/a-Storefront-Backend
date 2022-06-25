@@ -80,7 +80,7 @@ class UserModel {
 		try {
 			//open conncection
 			const conncection = await db.connect();
-			const query = 'DELETE FROM users WHERE id=($1) RETURNING id, email, username, firstname, lastname';
+			const query = 'DELETE FROM users WHERE id=($1) RETURNING id, email, username, firstname, lastname;';
 			//run query
 			const result = await conncection.query(query, [id]);
 			//release conncetion

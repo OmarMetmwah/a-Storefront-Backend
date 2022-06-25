@@ -73,7 +73,7 @@ class ProductModel {
 		try {
 			//open conncection
 			const conncection = await db.connect();
-			const query = 'DELETE FROM products WHERE id=($1) RETURNING id, name, price';
+			const query = 'DELETE FROM products WHERE id=($1) RETURNING id, name, price;';
 			//run query
 			const result = await conncection.query(query, [id]);
 			//release conncetion
